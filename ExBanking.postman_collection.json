@@ -1,0 +1,1151 @@
+{
+	"info": {
+		"_postman_id": "05e9af1a-deef-4986-8841-a7dd5f3c5e1a",
+		"name": "ExBanking",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20138735"
+	},
+	"item": [
+		{
+			"name": "Create User",
+			"item": [
+				{
+					"name": "rest/ex_banking/v1/users/create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var metaData = pm.iterationData.get(\"meta_data\")",
+									"var status_code = metaData[\"status_code\"]",
+									"var message = null",
+									"if ([400].includes(pm.response.code)){",
+									"    message = pm.response.json()[0][\"message\"]",
+									"}",
+									"",
+									"if (metaData['_test_id'] == 1) {",
+									"    pm.test(\"Send create user request with valid first name, last name, age, nationality, username,password,identity number and email.\", function () {",
+									"        pm.response.to.have.status(status_code);",
+									"    });",
+									"} else if (metaData['_test_id'] == 4) {",
+									"    pm.test(\"Send create user request with invalid email.\", function () {",
+									"        pm.response.to.have.status(status_code) &&",
+									"        pm.expect(message).to.eql(\"Create user request with invalid email.\");",
+									"    });",
+									"} else if (metaData['_test_id'] == 5) {",
+									"    pm.test(\"Create user request without username.\", function () {",
+									"        pm.response.to.have.status(status_code) &&",
+									"        pm.expect(message).to.eql(\"Create user request without username.\");",
+									"    });",
+									"} else if (metaData['_test_id'] == 12) {",
+									"    pm.test(\"Create user request with already registered username.\", function () {",
+									"        pm.response.to.have.status(status_code) &&",
+									"        pm.expect(message).to.eql(\"Create user request with already registered username.\");",
+									"    });",
+									"} else {",
+									"    // pass",
+									"}",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var metaData = pm.iterationData.get(\"meta_data\")",
+									"",
+									"pm.environment.set(\"url-resource\", metaData[\"url_resource\"]);",
+									"pm.environment.set(\"url-method\", metaData[\"url_method\"]);",
+									"",
+									"pm.environment.set(\"first_name\", pm.iterationData.get(\"first_name\"));",
+									"pm.environment.set(\"last_name\", pm.iterationData.get(\"last_name\"));",
+									"pm.environment.set(\"date_of_birth\", pm.iterationData.get(\"date_of_birth\"));",
+									"pm.environment.set(\"nationality\", pm.iterationData.get(\"nationality\"));",
+									"pm.environment.set(\"username\", pm.iterationData.get(\"username\"));",
+									"pm.environment.set(\"password\", pm.iterationData.get(\"password\"));",
+									"pm.environment.set(\"national_identity_number\", pm.iterationData.get(\"national_identity_number\"));",
+									"pm.environment.set(\"email\", pm.iterationData.get(\"email\"));",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"first_name\": \"{{first_name}}\",\n    \"last_name\": \"{{last_name}}\",\n    \"date_of_birth\": \"{{date_of_birth}}\",\n    \"nationality\": \"{{nationality}}\",\n    \"username\": \"{{username}}\",\n    \"password\": \"{{password}}\",\n    \"national_identity_number\": \"{{national_identity_number}}\",\n    \"email\": \"{{email}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}{{gateway-host}}{{gateway-url}}{{url-resource}}{{url-method}}",
+							"host": [
+								"{{protocol}}{{gateway-host}}{{gateway-url}}{{url-resource}}{{url-method}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Test ID 1",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"first_name\": \"Connie\",\n    \"last_name\": \"Wheeler\",\n    \"date_of_birth\": \"1966-10-13\",\n    \"nationality\": \"Estonian\",\n    \"username\": \"Connie1966\",\n    \"password\": \"!Q@W#E$Ra1s2\",\n    \"national_identity_number\": \"5576599278919190v\",\n    \"email\": \"conniefweeler@myemail.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/rest/ex_banking/v1/users/create",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"rest",
+										"ex_banking",
+										"v1",
+										"users",
+										"create"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Test ID 4",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"first_name\": \"Connie\",\n    \"last_name\": \"Wheeler\",\n    \"date_of_birth\": \"1966-10-13\",\n    \"nationality\": \"Estonian\",\n    \"username\": \"Connie1966\",\n    \"password\": \"!q@W#E$Ra1s2\",\n    \"national_identity_number\": \"4929928834868368v\",\n    \"email\": \"conniefweeler@.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/rest/ex_banking/v1/users/create",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"rest",
+										"ex_banking",
+										"v1",
+										"users",
+										"create"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"error\": \"Unable to process user create\",\n        \"message\": \"Create user request with invalid email.\"\n    }\n]"
+						},
+						{
+							"name": "Test ID 5",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"first_name\": \"Peter\",\n    \"last_name\": \"Hobson\",\n    \"date_of_birth\": \"1963-12-01\",\n    \"nationality\": \"Canadian\",\n    \"username\": \"\",\n    \"password\": \"!Q@w#E$Ra1s2\",\n    \"national_identity_number\": \"4716061194351002v\",\n    \"invalid_email\": \"conniefweeler@mymail.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/rest/ex_banking/v1/users/create",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"rest",
+										"ex_banking",
+										"v1",
+										"users",
+										"create"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"error\": \"Unable to process user create\",\n        \"message\": \"Create user request without username.\"\n    }\n]"
+						},
+						{
+							"name": "Test ID 12",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"first_name\": \"Nellie\",\n    \"last_name\": \"Sanchez\",\n    \"date_of_birth\": \"1999-04-10\",\n    \"nationality\": \"Russian\",\n    \"username\": \"finiz1953\",\n    \"password\": \"!Q@W#e$Ra1s2\",\n    \"national_identity_number\": \"4716070183484369v\",\n    \"email\": \"nelliewsanchez@facemail.com\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/rest/ex_banking/v1/users/create",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"rest",
+										"ex_banking",
+										"v1",
+										"users",
+										"create"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"error\": \"Unable to process user create\",\n        \"message\": \"Create user request with already registered username.\"\n    }\n]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Deposit",
+			"item": [
+				{
+					"name": "rest/ex_banking/v1/users/{{user-system-id}}/deposit",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var metaData = pm.iterationData.get(\"meta_data\")",
+									"var status_code = metaData[\"status_code\"]",
+									"var message = null",
+									"if ([400].includes(pm.response.code)){",
+									"    message = pm.response.json()[0][\"message\"]",
+									"}",
+									"",
+									"if (metaData['_test_id'] == 1) {",
+									"    pm.test(\"Send withdraw request with valid first name, last name, account number, amount and national identity number\", function () {",
+									"        pm.response.to.have.status(status_code);",
+									"    });",
+									"} else if (metaData['_test_id'] == 2) {",
+									"    pm.test(\"Deposit request with invalid account number\", function () {",
+									"        pm.response.to.have.status(status_code) &&",
+									"        pm.expect(message).to.eql(\"Deposit request with invalid account number.\");",
+									"    });",
+									"} else if (metaData['_test_id'] == 11) {",
+									"    pm.test(\"Deposit request with amount which is greater than to the balanced amount\", function () {",
+									"        pm.response.to.have.status(status_code) &&",
+									"        pm.expect(message).to.eql(\"Deposit request with amount which is greater than to the balanced amount.\");",
+									"    });",
+									"} else {",
+									"    // pass",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var metaData = pm.iterationData.get(\"meta_data\")",
+									"",
+									"pm.environment.set(\"url-resource\", metaData[\"url_resource\"]);",
+									"pm.environment.set(\"url-method\", metaData[\"url_method\"]);",
+									"pm.environment.set(\"user-system-id\", metaData[\"user-system-id\"]);",
+									"",
+									"pm.environment.set(\"first_name\", pm.iterationData.get(\"first_name\"));",
+									"pm.environment.set(\"last_name\", pm.iterationData.get(\"last_name\"));",
+									"pm.environment.set(\"account_number\", pm.iterationData.get(\"account_number\"));",
+									"pm.environment.set(\"deposit_amount\", pm.iterationData.get(\"deposit_amount\"));",
+									"pm.environment.set(\"currency\", pm.iterationData.get(\"currency\"));",
+									"pm.environment.set(\"national_identity_number\", pm.iterationData.get(\"national_identity_number\"));",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"first_name\": \"{{first_name}}\",\n    \"last_name\": \"{{last_name}}\",\n    \"account_number\": \"{{account_number}}\",\n    \"deposit_amount\": \"{{deposit_amount}}\",\n    \"currency\": \"{{currency}}\",\n    \"national_identity_number\": \"{{national_identity_number}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}{{gateway-host}}{{gateway-url}}{{url-resource}}{{user-system-id}}{{url-method}}",
+							"host": [
+								"{{protocol}}{{gateway-host}}{{gateway-url}}{{url-resource}}{{user-system-id}}{{url-method}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Test ID 1",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"first_name\": \"Chris\",\n    \"last_name\": \"Ruggles\",\n    \"account_number\": \"5916755644125262\",\n    \"deposit_amount\": \"650\",\n    \"currency\": \"€\",\n    \"national_identity_number\": \"8437783096V\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://ac8f51c5-fb41-4bde-92cb-eda8f4332ac4.mock.pstmn.io/rest/ex_banking/v1/users/601W521Q3341/deposit",
+									"protocol": "https",
+									"host": [
+										"ac8f51c5-fb41-4bde-92cb-eda8f4332ac4",
+										"mock",
+										"pstmn",
+										"io"
+									],
+									"path": [
+										"rest",
+										"ex_banking",
+										"v1",
+										"users",
+										"601W521Q3341",
+										"deposit"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Test ID 2",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"first_name\": \"James\",\n    \"last_name\": \"Miller\",\n    \"account_number\": \"6562953950695758\",\n    \"deposit_amount\": \"245\",\n    \"currency\": \"€\",\n    \"national_identity_number\": \"1431283026V\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/rest/ex_banking/v1/users/431W621Q2322/deposit",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"rest",
+										"ex_banking",
+										"v1",
+										"users",
+										"431W621Q2322",
+										"deposit"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"error\": \"Unable to process deposit\",\n        \"message\": \"Deposit request with invalid account number.\"\n    }\n]"
+						},
+						{
+							"name": "Test ID 11",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"first_name\": \"Delores\",\n    \"last_name\": \"Murphy\",\n    \"account_number\": \"4556124129721476\",\n    \"deposit_amount\": \"100\",\n    \"currency\": \"€\",\n    \"national_identity_number\": \"1007784499V\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/rest/ex_banking/v1/users/101W521Q3399/deposit",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"rest",
+										"ex_banking",
+										"v1",
+										"users",
+										"101W521Q3399",
+										"deposit"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"error\": \"Unable to process deposit\",\n        \"message\": \"Deposit request with amount which is greater than to the balanced amount.\"\n    }\n]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Withdraw",
+			"item": [
+				{
+					"name": "rest/ex_banking/v1/users/{{user-system-id}}/withdraw",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var metaData = pm.iterationData.get(\"meta_data\")",
+									"",
+									"pm.environment.set(\"url-resource\", metaData[\"url_resource\"]);",
+									"pm.environment.set(\"url-method\", metaData[\"url_method\"]);",
+									"pm.environment.set(\"user-system-id\", metaData[\"user-system-id\"]);",
+									"",
+									"pm.environment.set(\"first_name\", pm.iterationData.get(\"first_name\"));",
+									"pm.environment.set(\"last_name\", pm.iterationData.get(\"last_name\"));",
+									"pm.environment.set(\"account_number\", pm.iterationData.get(\"account_number\"));",
+									"pm.environment.set(\"withdraw_amount\", pm.iterationData.get(\"withdraw_amount\"));",
+									"pm.environment.set(\"currency\", pm.iterationData.get(\"currency\"));",
+									"pm.environment.set(\"national_identity_number\", pm.iterationData.get(\"national_identity_number\"));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var metaData = pm.iterationData.get(\"meta_data\")",
+									"var status_code = metaData[\"status_code\"]",
+									"var message = null",
+									"if ([400].includes(pm.response.code)){",
+									"    message = pm.response.json()[0][\"message\"]",
+									"}",
+									"",
+									"if (metaData['_test_id'] == 1) {",
+									"    pm.test(\"Send withdraw request with valid first name, last name, account number, amount and identification number\", function () {",
+									"        pm.response.to.have.status(status_code);",
+									"    });",
+									"} else if (metaData['_test_id'] == 3) {",
+									"    pm.test(\"Send withdraw request without account number\", function () {",
+									"        pm.response.to.have.status(status_code) &&",
+									"        pm.expect(message).to.eql(\"Send withdraw request without account number.\");",
+									"    });",
+									"} else if (metaData['_test_id'] == 5) {",
+									"    pm.test(\"Send withdraw request with amount as a floating number\", function () {",
+									"        pm.response.to.have.status(status_code);",
+									"    });",
+									"} else {",
+									"    // pass",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"first_name\": \"{{first_name}}\",\n    \"last_name\": \"{{last_name}}\",\n    \"account_number\": \"{{account_number}}\",\n    \"withdraw_amount\": \"{{withdraw_amount}}\",\n    \"currency\": \"{{currency}}\",\n    \"national_identity_number\": \"{{national_identity_number}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}{{gateway-host}}{{gateway-url}}{{url-resource}}{{user-system-id}}{{url-method}}",
+							"host": [
+								"{{protocol}}{{gateway-host}}{{gateway-url}}{{url-resource}}{{user-system-id}}{{url-method}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Test ID 1",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"first_name\": \"Theodore\",\n    \"last_name\": \"Bryan\",\n    \"account_number\": \"5571950435357425\",\n    \"withdraw_amount\": \"50\",\n    \"currency\": \"€\",\n    \"national_identity_number\": \"5537783096V\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://ac8f51c5-fb41-4bde-92cb-eda8f4332ac4.mock.pstmn.io/rest/ex_banking/v1/users/100W521Q3399/withdraw",
+									"protocol": "https",
+									"host": [
+										"ac8f51c5-fb41-4bde-92cb-eda8f4332ac4",
+										"mock",
+										"pstmn",
+										"io"
+									],
+									"path": [
+										"rest",
+										"ex_banking",
+										"v1",
+										"users",
+										"100W521Q3399",
+										"withdraw"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Test ID 3",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"first_name\": \"Jeremy\",\n    \"last_name\": \"Brandt\",\n    \"account_number\": \"\",\n    \"withdraw_amount\": \"40\",\n    \"currency\": \"€\",\n    \"national_identity_number\": \"3537783096V\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/rest/ex_banking/v1/users/200W521Q3399/withdraw",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"rest",
+										"ex_banking",
+										"v1",
+										"users",
+										"200W521Q3399",
+										"withdraw"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"error\": \"Unable to process withdraw transaction\",\n        \"message\": \"Send withdraw request without account number.\"\n    }\n]"
+						},
+						{
+							"name": "Test ID 5",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"first_name\": \"Cecilia\",\n    \"last_name\": \"Kinder\",\n    \"account_number\": \"4556693934187636\",\n    \"withdraw_amount\": \"55.5\",\n    \"currency\": \"€\",\n    \"national_identity_number\": \"1537783016V\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/rest/ex_banking/v1/users/303W521Q3340/withdraw",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"rest",
+										"ex_banking",
+										"v1",
+										"users",
+										"303W521Q3340",
+										"withdraw"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Get Balance",
+			"item": [
+				{
+					"name": "rest/ex_banking/v1/users/{{user-system-id}}/get_balance",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var metaData = pm.iterationData.get(\"meta_data\")",
+									"",
+									"pm.environment.set(\"url-resource\", metaData[\"url_resource\"]);",
+									"pm.environment.set(\"url-method\", metaData[\"url_method\"]);",
+									"pm.environment.set(\"user-system-id\", metaData[\"user-system-id\"]);",
+									"",
+									"pm.environment.set(\"first_name\", pm.iterationData.get(\"first_name\"));",
+									"pm.environment.set(\"last_name\", pm.iterationData.get(\"last_name\"));",
+									"pm.environment.set(\"account_number\", pm.iterationData.get(\"account_number\"));",
+									"pm.environment.set(\"withdraw_amount\", pm.iterationData.get(\"withdraw_amount\"));",
+									"pm.environment.set(\"currency\", pm.iterationData.get(\"currency\"));",
+									"pm.environment.set(\"identification_number\", pm.iterationData.get(\"identification_number\"));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var metaData = pm.iterationData.get(\"meta_data\")",
+									"var status_code = metaData[\"status_code\"]",
+									"var message = null",
+									"if ([400].includes(pm.response.code)){",
+									"    message = pm.response.json()[0][\"message\"]",
+									"}",
+									"",
+									"if (metaData['_test_id'] == 1) {",
+									"    pm.test(\"Send get balance request with valid first name, last name, account number and identification number\", function () {",
+									"        pm.response.to.have.status(status_code);",
+									"    });",
+									"} else if (metaData['_test_id'] == 2) {",
+									"    pm.test(\"Send get balance request with invalid account number\", function () {",
+									"        pm.response.to.have.status(status_code) &&",
+									"        pm.expect(message).to.eql(\"Send get balance request with invalid account number.\");",
+									"    });",
+									"} else {",
+									"    // pass",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"first_name\": \"{{first_name}}\",\n    \"last_name\": \"{{last_name}}\",\n    \"account_number\": \"{{account_number}}\",\n    \"national_identity_number\": \"{{national_identity_number}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}{{gateway-host}}{{gateway-url}}{{url-resource}}{{user-system-id}}{{url-method}}",
+							"host": [
+								"{{protocol}}{{gateway-host}}{{gateway-url}}{{url-resource}}{{user-system-id}}{{url-method}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Test ID 1",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://ac8f51c5-fb41-4bde-92cb-eda8f4332ac4.mock.pstmn.io/rest/ex_banking/v1/users/100W521Q35399/get_balance",
+									"protocol": "https",
+									"host": [
+										"ac8f51c5-fb41-4bde-92cb-eda8f4332ac4",
+										"mock",
+										"pstmn",
+										"io"
+									],
+									"path": [
+										"rest",
+										"ex_banking",
+										"v1",
+										"users",
+										"100W521Q35399",
+										"get_balance"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n   \"account_number\": \"5422776148329844\",\n   \"amount\":\"1023\"\n}"
+						},
+						{
+							"name": "Test ID 2",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/rest/ex_banking/v1/users/999W521Q35400/get_balance",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"rest",
+										"ex_banking",
+										"v1",
+										"users",
+										"999W521Q35400",
+										"get_balance"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"error\": \"Unable to process account balance request\",\n        \"message\": \"Send get balance request with invalid account number.\"\n    }\n]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Send",
+			"item": [
+				{
+					"name": "rest/ex_banking/v1/users/{{user-system-id}}/send",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var metaData = pm.iterationData.get(\"meta_data\")",
+									"",
+									"pm.environment.set(\"url-resource\", metaData[\"url_resource\"]);",
+									"pm.environment.set(\"url-method\", metaData[\"url_method\"]);",
+									"pm.environment.set(\"user-system-id\", metaData[\"user-system-id\"]);",
+									"",
+									"pm.environment.set(\"first_name\", pm.iterationData.get(\"first_name\"));",
+									"pm.environment.set(\"last_name\", pm.iterationData.get(\"last_name\"));",
+									"pm.environment.set(\"account_number\", pm.iterationData.get(\"account_number\"));",
+									"pm.environment.set(\"withdraw_amount\", pm.iterationData.get(\"withdraw_amount\"));",
+									"pm.environment.set(\"currency\", pm.iterationData.get(\"currency\"));",
+									"pm.environment.set(\"identification_number\", pm.iterationData.get(\"identification_number\"));"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var metaData = pm.iterationData.get(\"meta_data\")",
+									"var status_code = metaData[\"status_code\"]",
+									"var message = null",
+									"if ([400].includes(pm.response.code)){",
+									"    message = pm.response.json()[0][\"message\"]",
+									"}",
+									"",
+									"if (metaData['_test_id'] == 1) {",
+									"    pm.test(\"Send send request with valid first name, last name, remarks, reciveing account number, sending account, identification number, amount\", function () {",
+									"        pm.response.to.have.status(status_code);",
+									"    });",
+									"} else if (metaData['_test_id'] == 2) {",
+									"    pm.test(\"Send request with using same account number for sending and recieving account numbers\", function () {",
+									"        pm.response.to.have.status(status_code) &&",
+									"        pm.expect(message).to.eql(\"Send request with using same account number for sending and recieving account numbers.\");",
+									"    });",
+									"} else if (metaData['_test_id'] == 11) {",
+									"    pm.test(\"Send request with invalid amount\", function () {",
+									"        pm.response.to.have.status(status_code) &&",
+									"        pm.expect(message).to.eql(\"Send request with invalid amount.\");",
+									"    });",
+									"} else {",
+									"    // pass",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"first_name\": \"{{first_name}}\",\n    \"last_name\": \"{{last_name}}\",\n    \"sender_account_number\": \"{{sender_account_number}}\",\n    \"receiver_account_number\": \"{{receiver_account_number}}\",\n    \"transer_amount\": \"{{transer_amount}}\",\n    \"currency\": \"{{currency}}\",\n    \"remark\": \"{{remark}}\",\n    \"national_identity_number\": \"{{national_identity_number}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{protocol}}{{gateway-host}}{{gateway-url}}{{url-resource}}{{user-system-id}}{{url-method}}",
+							"host": [
+								"{{protocol}}{{gateway-host}}{{gateway-url}}{{url-resource}}{{user-system-id}}{{url-method}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Test ID 1",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"first_name\": \"Roger\",\n    \"last_name\": \"Smith\",\n    \"sender_account_number\": \"5209774288044991\",\n    \"receiver_account_number\": \"4716022361243505\",\n    \"transer_amount\": \"330\",\n    \"currency\": \"€\",\n    \"remark\": \"Birthday Gift\",\n    \"national_identity_number\": \"2537383096V\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://ac8f51c5-fb41-4bde-92cb-eda8f4332ac4.mock.pstmn.io/rest/ex_banking/v1/users/200W444Q35398/send",
+									"protocol": "https",
+									"host": [
+										"ac8f51c5-fb41-4bde-92cb-eda8f4332ac4",
+										"mock",
+										"pstmn",
+										"io"
+									],
+									"path": [
+										"rest",
+										"ex_banking",
+										"v1",
+										"users",
+										"200W444Q35398",
+										"send"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Test ID 2",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"first_name\": \"Shannon\",\n    \"last_name\": \"Terrell\",\n    \"sender_account_number\": \"5224558607115173\",\n    \"receiver_account_number\": \"5224558607115173\",\n    \"transer_amount\": \"104\",\n    \"currency\": \"€\",\n    \"remark\": \"Student Loan\",\n    \"national_identity_number\": \"4437383096V\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/rest/ex_banking/v1/users/303W444Q35400/send",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"rest",
+										"ex_banking",
+										"v1",
+										"users",
+										"303W444Q35400",
+										"send"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"error\": \"Unable to process transaction\",\n        \"message\": \"Send request with using same account number for sending and recieving account numbers.\"\n    }\n]"
+						},
+						{
+							"name": "Test ID 11",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"first_name\": \"Mitchell\",\n    \"last_name\": \"Vansickle\",\n    \"sender_account_number\": \"4716022361243505\",\n    \"receiver_account_number\": \"5224558607115173\",\n    \"transer_amount\": \"-1200\",\n    \"currency\": \"€\",\n    \"remark\": \"House Rent\",\n    \"national_identity_number\": \"4437383096V\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/rest/ex_banking/v1/users/500W432Q35411/send",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"rest",
+										"ex_banking",
+										"v1",
+										"users",
+										"500W432Q35411",
+										"send"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"error\": \"Unable to process transaction\",\n        \"message\": \"Send request with invalid amount.\"\n    }\n]"
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "https://4865aa67-0075-4502-bce2-369b6f006f3e.mock.pstmn.io"
+		}
+	]
+}
